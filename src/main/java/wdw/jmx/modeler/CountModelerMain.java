@@ -14,27 +14,27 @@ import com.sun.jdmk.comm.HtmlAdaptorServer;
 public class CountModelerMain {
 
     public static void main(String[] args) throws Exception {
-        // æ„å»ºRegistry ss
+        // ¹¹½¨Registry
         Registry registry = Registry.getRegistry(null, null);
         InputStream stream = CountModelerMain.class.getResourceAsStream("mbeans.xml");
         registry.loadMetadata(stream);
         stream.close();
-        // ç”±Registryå¾—åˆ°ä¸€ä¸ªMBeanServer
+        // ÓÉRegistryµÃµ½Ò»¸öMBeanServer
         MBeanServer server = registry.getMBeanServer();
-        // å¾—åˆ°Countåœ¨æè¿°æ–‡ä»¶ä¸­çš„ä¿¡æ¯ç±»ï¼Œå¯¹åº”äºxmlæ–‡ä»¶<mbean>æ ‡ç­¾çš„nameå±æ€§ã€‚
+        // µÃµ½CountÔÚÃèÊöÎÄ¼şÖĞµÄĞÅÏ¢Àà£¬¶ÔÓ¦ÓÚxmlÎÄ¼ş<mbean>±êÇ©µÄnameÊôĞÔ¡£
         ManagedBean managed = registry.findManagedBean("Count");
-        // åˆ›å»ºObjectName
+        // ´´½¨ObjectName
         ObjectName objectName = new ObjectName(managed.getDomain() + ":name=" + managed.getGroup());
-        // å¾—åˆ°ModelMBean
+        // µÃµ½ModelMBean
         Count count = new Count();
         ModelMBean model = managed.createMBean(count);
-        // æ³¨å†ŒMBean
+        // ×¢²áMBean
         server.registerMBean(model, objectName);
 
-        // ä»¥HtmlAdaptorç®¡ç†,éœ€è¦é¢å¤–çš„jmxtools.jar
+        // ÒÔHtmlAdaptor¹ÜÀí,ĞèÒª¶îÍâµÄjmxtools.jar
         ObjectName adapterName = new ObjectName("wdw:name=htmladapter");
         HtmlAdaptorServer adapter = new HtmlAdaptorServer();
-        adapter.setPort(8080);// é»˜è®¤ç«¯å£8082
+        adapter.setPort(8080);// Ä¬ÈÏ¶Ë¿Ú8082
         server.registerMBean(adapter, adapterName);
         adapter.start();
         System.out.println("htmladapter start at 8080.....");

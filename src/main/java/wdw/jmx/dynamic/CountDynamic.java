@@ -18,21 +18,21 @@ import javax.management.MBeanParameterInfo;
 import javax.management.ReflectionException;
 
 /**
- * ç±»CountDynamic.javaçš„å®ç°æè¿°ï¼šéœ€è¦å®ç°DynamicMBeançš„æ¥å£ï¼Œæè¿°æ­¤ç±»çš„ä¸€äº›æ„é€ å‡½æ•°ï¼Œå±æ€§ï¼Œæ–¹æ³•ç­‰å…ƒæ•°æ®ä¿¡æ¯
+ * ÀàCountDynamic.javaµÄÊµÏÖÃèÊö£ºĞèÒªÊµÏÖDynamicMBeanµÄ½Ó¿Ú£¬ÃèÊö´ËÀàµÄÒ»Ğ©¹¹Ôìº¯Êı£¬ÊôĞÔ£¬·½·¨µÈÔªÊı¾İĞÅÏ¢
  * 
- * @author wdw 2012-11-16 ä¸Šåˆ12:25:11
+ * @author wdw 2012-11-16 ÉÏÎç12:25:11
  */
 public class CountDynamic implements DynamicMBean {
 
     private long                   count;
     public boolean                 stop;
-    private MBeanInfo              mBeanInfo = null;          // å…ƒæ•°æ®
-    private String                 className;                 // ç±»ä¿¡æ¯
-    private String                 description;               // æè¿°
-    private MBeanAttributeInfo[]   attributes;                // å±æ€§ä¿¡æ¯
-    private MBeanConstructorInfo[] constructors;              // æ„é€ å‡½æ•°ä¿¡æ¯
-    private MBeanOperationInfo[]   operations;                // æ–¹æ³•è°ƒç”¨
-    MBeanNotificationInfo[]        mBeanNotificationInfoArray; // æ¶ˆæ¯æœºåˆ¶
+    private MBeanInfo              mBeanInfo = null;          // ÔªÊı¾İ
+    private String                 className;                 // ÀàĞÅÏ¢
+    private String                 description;               // ÃèÊö
+    private MBeanAttributeInfo[]   attributes;                // ÊôĞÔĞÅÏ¢
+    private MBeanConstructorInfo[] constructors;              // ¹¹Ôìº¯ÊıĞÅÏ¢
+    private MBeanOperationInfo[]   operations;                // ·½·¨µ÷ÓÃ
+    MBeanNotificationInfo[]        mBeanNotificationInfoArray; // ÏûÏ¢»úÖÆ
 
     @SuppressWarnings("rawtypes")
 	public CountDynamic() {
@@ -40,28 +40,30 @@ public class CountDynamic implements DynamicMBean {
         description = "CountDynamic is a dynamic MBean.";
         attributes = new MBeanAttributeInfo[2];
         constructors = new MBeanConstructorInfo[1];
-        operations = new MBeanOperationInfo[1];// è¿™æ¬¡åªæš´éœ²stopæ–¹æ³•
+        operations = new MBeanOperationInfo[1];// Õâ´ÎÖ»±©Â¶stop·½·¨
         mBeanNotificationInfoArray = new MBeanNotificationInfo[0];
-        // è®¾å®šæ„é€ å‡½æ•°
+        // Éè¶¨¹¹Ôìº¯Êı
         Constructor[] thisconstructors = this.getClass().getConstructors();
         constructors[0] = new MBeanConstructorInfo("CountDynamic(): Constructs a CountDynamic object",
                                                    thisconstructors[0]);
-        // è®¾å®šCountå±æ€§
+        // Éè¶¨CountÊôĞÔ
         attributes[0] = new MBeanAttributeInfo("Count", "java.lang.Long", "Count: count long.", true, true, false);
         attributes[1] = new MBeanAttributeInfo("Stop", "java.lang.Boolean", "Stop: stop boolean.", true, true, false);
-        // operate method æˆ‘ä»¬çš„æ“ä½œæ–¹æ³•æ˜¯print
-        MBeanParameterInfo[] params = null;// æ— å‚æ•°
+        // operate method ÎÒÃÇµÄ²Ù×÷·½·¨ÊÇprint
+        MBeanParameterInfo[] params = null;// ÎŞ²ÎÊı
         operations[0] = new MBeanOperationInfo("stop", "stop(): stop count++", params, "void", MBeanOperationInfo.INFO);
         mBeanInfo = new MBeanInfo(className, description, attributes, constructors, operations,
                                   mBeanNotificationInfoArray);
     }
 
+    @Override
     public Object getAttribute(String attribute) throws AttributeNotFoundException, MBeanException, ReflectionException {
         if (attribute == null) return null;
         if (attribute.equals("Count")) return count;
         return null;
     }
 
+    @Override
     public void setAttribute(Attribute attribute) throws AttributeNotFoundException, InvalidAttributeValueException,
                                                  MBeanException, ReflectionException {
         if (attribute == null) return;
@@ -71,19 +73,20 @@ public class CountDynamic implements DynamicMBean {
             if (value == null) {
                 count = 0;
             } else if (value instanceof Long) {
-                count = (Long) value;
+                count = (long) value;
             }
         }
         if (name.equals("Stop")) {
             if (value == null) {
                 stop = false;
             } else if (value instanceof Boolean) {
-                stop = (Boolean) value;
+                stop = (boolean) value;
             }
         }
 
     }
 
+    @Override
     public AttributeList getAttributes(String[] attributes) {
         if (attributes == null) return null;
         AttributeList resultList = new AttributeList();
@@ -102,7 +105,8 @@ public class CountDynamic implements DynamicMBean {
     }
 
     @SuppressWarnings("rawtypes")
-	public AttributeList setAttributes(AttributeList attributes) {
+	@Override
+    public AttributeList setAttributes(AttributeList attributes) {
         if (attributes == null) return null;
         AttributeList resultList = new AttributeList();
         if (attributes.isEmpty()) return resultList;
@@ -120,12 +124,13 @@ public class CountDynamic implements DynamicMBean {
         return resultList;
     }
 
+    @Override
     public Object invoke(String actionName, Object[] params, String[] signature) throws MBeanException,
                                                                                 ReflectionException {
         if (actionName.equals("stop")) {
-            // å…·ä½“å®ç°æˆ‘ä»¬çš„æ“ä½œæ–¹æ³•stop
+            // ¾ßÌåÊµÏÖÎÒÃÇµÄ²Ù×÷·½·¨stop
             stop = true;
-            operations = new MBeanOperationInfo[2];// è®¾å®šæ•°ç»„ä¸ºä¸¤ä¸ª
+            operations = new MBeanOperationInfo[2];// Éè¶¨Êı×éÎªÁ½¸ö
             operations[0] = new MBeanOperationInfo("stop", "stop(): stop count++", null, "void",
                                                    MBeanOperationInfo.INFO);
             operations[1] = new MBeanOperationInfo("add", "add(): make count++", null, "void", MBeanOperationInfo.INFO);
@@ -142,6 +147,7 @@ public class CountDynamic implements DynamicMBean {
         }
     }
 
+    @Override
     public MBeanInfo getMBeanInfo() {
         return mBeanInfo;
     }

@@ -23,24 +23,24 @@ public class CountModelUtil {
     }
 
     private static ModelMBeanInfo createModelMBeanInfo() {
-        // æ„é€ countå±æ€§ä¿¡æ¯
+        // ¹¹ÔìcountÊôĞÔĞÅÏ¢
         ModelMBeanAttributeInfo count = new ModelMBeanAttributeInfo(//
-                                                                    "count", // å±æ€§å
-                                                                    "java.lang.Long", // å±æ€§ç±»å‹
-                                                                    "count", // æè¿°
-                                                                    true, true, false, // è¯»å†™
+                                                                    "count", // ÊôĞÔÃû
+                                                                    "java.lang.Long", // ÊôĞÔÀàĞÍ
+                                                                    "count", // ÃèÊö
+                                                                    true, true, false, // ¶ÁĞ´
                                                                     null);
-        // æ„é€ stopå±æ€§ä¿¡æ¯
+        // ¹¹ÔìstopÊôĞÔĞÅÏ¢
         ModelMBeanAttributeInfo stop = new ModelMBeanAttributeInfo(//
-                                                                   "stop", // å±æ€§å
-                                                                   "java.lang.Boolean", // å±æ€§ç±»å‹
-                                                                   "stop", // æè¿°
-                                                                   true, true, false, // è¯»å†™
+                                                                   "stop", // ÊôĞÔÃû
+                                                                   "java.lang.Boolean", // ÊôĞÔÀàĞÍ
+                                                                   "stop", // ÃèÊö
+                                                                   true, true, false, // ¶ÁĞ´
                                                                    null);
-        // æ„é€  stop()æ“ä½œçš„ä¿¡æ¯
+        // ¹¹Ôì stop()²Ù×÷µÄĞÅÏ¢
         ModelMBeanOperationInfo stopAction = new ModelMBeanOperationInfo("stop", null, null, "void",
                                                                          MBeanOperationInfo.INFO, null);
-        // ç»„è£… ModelMBeanInfo
+        // ×é×° ModelMBeanInfo
         ModelMBeanInfo mbeanInfo = new ModelMBeanInfoSupport(RequiredModelMBean.class.getName(), null,
                                                              new ModelMBeanAttributeInfo[] { count, stop }, null,
                                                              new ModelMBeanOperationInfo[] { stopAction }, null, null);

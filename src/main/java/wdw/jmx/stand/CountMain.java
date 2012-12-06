@@ -24,14 +24,14 @@ public class CountMain {
         ObjectName objectName = new ObjectName("wdw:name=Count");
         Count count = new Count();
         server.registerMBean(count, objectName);
-        // 浠tmlAdaptor绠＄悊,闇�瑕侀澶栫殑jmxtools.jar
+        // 以HtmlAdaptor管理,需要额外的jmxtools.jar
         ObjectName adapterName = new ObjectName("wdw:name=htmladapter");
         HtmlAdaptorServer adapter = new HtmlAdaptorServer();
-        adapter.setPort(8080);// 榛樿绔彛8082
+        adapter.setPort(8080);// 默认端口8082
         server.registerMBean(adapter, adapterName);
         adapter.start();
         System.out.println("htmladapter start at 8080.....");
-        // 浠ヤ笂鍙槸娴嬭瘯鐢紝涓嶅畨鍏紝鍙互浣跨敤RMI鐨凷erver,閫氳繃jconsole杩炴帴
+        // 以上只是测试用，不安全，可以使用RMI的Server,通过jconsole连接
         JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:8888/server");
         JMXConnectorServer cs = JMXConnectorServerFactory.newJMXConnectorServer(url, null, server);
         cs.start();

@@ -20,10 +20,10 @@ public class CountModelMain {
         Count count = new Count();
         RequiredModelMBean model = CountModelUtil.createModlerMBean(count);
         server.registerMBean(model, objectName);
-        // 浠tmlAdaptor绠＄悊,闇�瑕侀澶栫殑jmxtools.jar
+        // 以HtmlAdaptor管理,需要额外的jmxtools.jar
         ObjectName adapterName = new ObjectName("wdw:name=htmladapter");
         HtmlAdaptorServer adapter = new HtmlAdaptorServer();
-        adapter.setPort(8080);// 榛樿绔彛8082
+        adapter.setPort(8080);// 默认端口8082
         server.registerMBean(adapter, adapterName);
         adapter.start();
         System.out.println("htmladapter start at 8080.....");
