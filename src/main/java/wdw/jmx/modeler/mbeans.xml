@@ -1,0 +1,8 @@
+<?xml version="1.0"?>  
+<mbeans-descriptors>
+ <mbean name="Count" description="count" domain="wdw" group="CountXml" type="wdw.jmx.modeler.Count">  
+  <attribute name="count" description="attribute" type="java.lang.Long"  writeable="true"/> 
+  <attribute name="stop" description="attribute" type="java.lang.Boolean"  writeable="true"/>   
+  <operation name="stop" description="stop count++" impact="INFO" returnType="void"/>  
+ </mbean>
+</mbeans-descriptors>
